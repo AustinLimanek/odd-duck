@@ -1,9 +1,11 @@
 'use strict';
 
 let imageSpace = document.querySelector('#imageSpace');
-let allImgElsOnPage = document.querySelectorAll('img');
+let allImgElsOnPage = document.querySelectorAll('section img');
 let imgPathways = ["bag.jpg", "banana.jpg", "bathroom.jpg", "boots.jpg", "breakfast.jpg", "bubblegum.jpg", "chair.jpg", "cthulhu.jpg", "dog-duck.jpg", "dragon.jpg", "pen.jpg", "pet-sweep.jpg", "scissors.jpg", "shark.jpg", "sweep.png", "tauntaun.jpg", "unicorn.jpg", "water-can.jpg", "wine-glass.jpg"];
-let input = 5;
+
+//Input is the number of photos printed on the page
+let input = 3;
 let number = Math.min(input, imgPathways.length);
 
 let clicks = 0; 
@@ -31,10 +33,15 @@ createImgObjects();
 
 function createImageElements (number) {
   let imageSpace = document.getElementById('imageSpace');
+  let instructionSpace = document.getElementById('instructionSpace')
+  let instructions = document.createElement('p');
+  instructions.setAttribute('id', 'instruction');
+  instructions.textContent = 'Click the image, out of the ' + input +', that contains the best invention:';
+  instructionSpace.appendChild(instructions);
 
   for (let i = 0; i < number; i++) {
     let imageEl = document.createElement('img');
-    imageEl.setAttribute('id', 'image'+(i+1));
+    imageEl.setAttribute('id', 'image');
     imageSpace.appendChild(imageEl);
   }
 }
@@ -62,7 +69,7 @@ function includedImages(number){
 function renderImages (number) {
   let newList = includedImages(number);
   for(let i = 0; i < number; i++){
-    let image = document.querySelectorAll('img')[i];
+    let image = document.querySelectorAll('section img')[i];
     image.src = Image.imgObjArray[newList[i]].src;
     image.alt = Image.imgObjArray[newList[i]].name;
     Image.imgObjArray[newList[i]].views++;
@@ -91,22 +98,41 @@ function multiChoiceClick(event) {
     let resultButton = document.createElement('button');
     resultButton.setAttribute('id', 'resultButton');
     imageSpace.appendChild(resultButton);
+    resultButton.textContent = 'View Results';
 
     resultButton.addEventListener('click', renderResults);
+
+    for (let i = 0; i < input; i++){
+    imageSpace.removeChild(document.getElementById('image'));
+    }
+
+    instructionSpace.removeChild(document.getElementById('instruction'));
     
   }
   else{
     if (state){
       renderImages(number);
-      console.log(Image.imgObjArray);
-      console.log(clicks);
     }
   }
 }
 
 function renderResults(){
-  console.log(Image.imgObjArray);
-  console.log('hi');
+  let resultSpace = document.querySelector('main');
+  let list = document.createElement('ul');
+  let summaryTitle = document.createElement('h2');
+  summaryTitle.textContent = "Summary of Survey:";
+  resultSpace.appendChild(summaryTitle);
+  resultSpace.appendChild(list);
+
+  for (let i = 0; i < Image.imgObjArray.length; i++){
+    let listEl = document.createElement('li');
+    listEl.textContent = Image.imgObjArray[i].name + ' had ' + Image.imgObjArray[i].views + ' views, and received ' + Image.imgObjArray[i].clicks + ' votes';
+    list.appendChild(listEl);
+  }
+  imageSpace.removeChild(document.getElementById('resultButton'));
+  let thanks = document.createElement('p');
+  thanks.textContent = "Thank you for taking our survey!!";
+  imageSpace.appendChild(thanks);
 }
 
 imageSpace.addEventListener('click', multiChoiceClick);
