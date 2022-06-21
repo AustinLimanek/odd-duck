@@ -1,4 +1,69 @@
+html{
+  background-color: rgb(244, 212, 161);
+}
+
+header {
+  font-size: 80px;
+  text-align: center;
+  font-family:'Times New Roman', Times, serif;
+  color: rgb(255, 198, 76);
+  background-color: rgb(251, 159, 20);
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+h1 {
+  padding-bottom: 10px;
+}
+
+#instructionSpace {
+  text-align: center;
+}
+
+#imageSpace {
+  display: flex;
+  justify-content: space-around;
+  background-color: rgba(223, 223, 11, 0.699);
+  padding: 30px;
+}
+
 img {
   height: 200px;
   width: 200px;
+  cursor: pointer;
 }
+
+button {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+button:hover {
+  background-color: rgb(78, 151, 151);
+  color: rgb(27, 80, 137);
+}
+
+main p {
+  font-size: 40px;
+  font-family: 'Times New Roman', Times, serif;
+  color: rgb(206, 136, 5)
+}
+
+h2 {
+  text-align: center;
+  font-size: 30px;
+  color: green;
+  padding: 20px;
+}
+
+ul {
+  text-align: center;
+  line-height: 1.5;
+}
+
+footer {
+  text-align: center;
+  padding-top: 100%;
+}
+
+
