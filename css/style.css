@@ -6,10 +6,17 @@ header {
   font-size: 80px;
   text-align: center;
   font-family:'Times New Roman', Times, serif;
-  color: rgb(255, 198, 76);
-  background-color: rgb(251, 159, 20);
+  color: rgb(0, 0, 0);
+  background-color: rgb(243, 165, 50);
   padding: 10px;
   margin-bottom: 0px;
+}
+
+header > img {
+  height: 200px;
+  width: 200px;
+  padding: 10px;
+  border:thick solid black;
 }
 
 h1 {
@@ -17,17 +24,29 @@ h1 {
 }
 
 #instructionSpace {
+  display: flex;
+  padding-top: 20px;
+  justify-content: center;
+  height: 100px;
+  background-color:rgba(103, 222, 222, 0.479)
+}
+
+#instructionSpace > p {
+  max-width: 600px;
   text-align: center;
+  color: rgb(99, 82, 55);
 }
 
 #imageSpace {
   display: flex;
-  justify-content: space-around;
-  background-color: rgba(223, 223, 11, 0.699);
+  justify-content: center;
+  background-color: rgba(166, 201, 121, 0.699);
+  gap: 30px;
   padding: 30px;
 }
 
-img {
+#imageSpace > img {
+  border: thick solid rgb(0, 193, 0);
   height: 200px;
   width: 200px;
   cursor: pointer;
@@ -35,12 +54,20 @@ img {
 
 button {
   cursor: pointer;
+  font-family:'Times New Roman', Times, serif;
   font-size: 30px;
+  border: thick solid black;
+  background-color: rgba(236, 190, 63, 0.932);
+  transition: 200ms;
+  color: black;
 }
 
 button:hover {
-  background-color: rgb(78, 151, 151);
-  color: rgb(27, 80, 137);
+  background-color: rgb(163, 202, 184);
+  color: rgb(2, 101, 2);
+  border: thick solid rgb(2, 147, 2);
+  transition: 200ms;
+  border-radius: 30px;
 }
 
 main p {
@@ -51,7 +78,7 @@ main p {
 
 h2 {
   text-align: center;
-  font-size: 30px;
+  font-size: 40px;
   color: green;
   padding: 20px;
 }
@@ -59,6 +86,16 @@ h2 {
 ul {
   text-align: center;
   line-height: 1.5;
+  border: black line;
+}
+
+#chart {
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  margin: 40px;
 }
 
 footer {
