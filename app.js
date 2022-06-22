@@ -5,11 +5,12 @@ let allImgElsOnPage = document.querySelectorAll('section img');
 let imgPathways = ["bag.jpg", "banana.jpg", "bathroom.jpg", "boots.jpg", "breakfast.jpg", "bubblegum.jpg", "chair.jpg", "cthulhu.jpg", "dog-duck.jpg", "dragon.jpg", "pen.jpg", "pet-sweep.jpg", "scissors.jpg", "shark.jpg", "sweep.png", "tauntaun.jpg", "unicorn.jpg", "water-can.jpg", "wine-glass.jpg"];
 
 //Input is the number of photos printed on the page
-let input = 3;
+let input = 5;
 let number = Math.min(input, imgPathways.length);
 
 let clicks = 0; 
-let maxClicks = 5;
+let maxClicks = 25;
+let currentImg =[];
 
 // imgPathways.forEach(i => {console.log(i.length); console.log(i)});
 
@@ -18,6 +19,15 @@ function Image(name, src) {
   this.src = src;
   this.views = 0;
   this.clicks = 0;
+  this.successRate = 0;
+
+  this.updateSuccessRate = function () {
+    if (this.views !== 0){
+      this.successRate = (this.clicks / this.views) * 100;
+    }
+    return this.successRate;
+  }
+
   Image.imgObjArray.push(this);
 }
 
@@ -57,12 +67,12 @@ function includedImages(number){
   let array = [];
   for (let i = 0; i < number; i++){
     let rn = randomNumber();
-    let i = 0;
-    while (array.includes(rn)){
+    while (array.includes(rn) || currentImg.includes(rn)){
       rn = randomNumber();
     }
     array.push(rn);
   }
+  currentImg = array;
   return array;
 } 
 
@@ -116,8 +126,26 @@ function multiChoiceClick(event) {
   }
 }
 
+function dataArray(array, property) {
+  let output = [];
+  for (let i = 0; i < array.length; i++) {
+    output.push(array[i][property]);
+  }
+  return output;
+}
+
+function successArray(array) {
+  let output = [];
+  for (let i = 0; i < array.length; i++) {
+    output.push(array[i].updateSuccessRate());
+  }
+  return output;
+}
+
+
+
 function renderResults(){
-  let resultSpace = document.querySelector('main');
+  let resultSpace = document.getElementById('results');
   let list = document.createElement('ul');
   let summaryTitle = document.createElement('h2');
   summaryTitle.textContent = "Summary of Survey:";
@@ -133,6 +161,64 @@ function renderResults(){
   let thanks = document.createElement('p');
   thanks.textContent = "Thank you for taking our survey!!";
   imageSpace.appendChild(thanks);
+
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: imgPathways,
+          datasets: [
+            {
+              label: '# of Votes',
+              data: dataArray(Image.imgObjArray, "clicks"),
+              backgroundColor: 'green',
+              borderColor: 'orange',
+              borderWidth: 1
+            },
+            {
+              label: '# of Views',
+              data: dataArray(Image.imgObjArray, "views"),
+              backgroundColor: 'rgb(251, 159, 20)',
+              borderColor: 'green',
+              borderWidth: 1
+            },
+          ]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  let ctx2 = document.getElementById('myChart2').getContext('2d');
+  let myChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+          labels: imgPathways,
+          datasets: [
+            {
+              label: '% Success Rate',
+              data: successArray(Image.imgObjArray),
+              backgroundColor: 'green',
+              borderColor: 'orange',
+              borderWidth: 1
+            }
+          ]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
 }
 
 imageSpace.addEventListener('click', multiChoiceClick);
+
+console.log(Image.imgObjArray);
