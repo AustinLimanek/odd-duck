@@ -41,9 +41,10 @@ function reConstructor (array){
   }
 }
 
-if(userArray.length = true){
+if(userArray.length > 0){
   reConstructor(userArray);
   console.log(Image.imgObjArray);
+  console.log('hi');
 }
 
 function createImgObjects(){
@@ -54,6 +55,7 @@ function createImgObjects(){
 
 if (Image.imgObjArray.length === 0){
   createImgObjects();
+  console.log('hi2');
 }
 
 function createImageElements (number) {
