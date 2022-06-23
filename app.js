@@ -14,11 +14,11 @@ let currentImg =[];
 
 // imgPathways.forEach(i => {console.log(i.length); console.log(i)});
 
-function Image(name, src) {
+function Image(name, src, views, clicks) {
   this.name = name;
   this.src = src;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
   this.successRate = 0;
 
   this.updateSuccessRate = function () {
@@ -31,15 +31,30 @@ function Image(name, src) {
   Image.imgObjArray.push(this);
 }
 
+let userArray = JSON.parse(localStorage.getItem("myObject"));
+
 Image.imgObjArray = [];
 
-function createImgObjects(){
-  for (let i = 0; i < imgPathways.length; i++){
-    new Image(imgPathways[i].slice(0, imgPathways[i].length - 4), "./img/" + imgPathways[i])
+function reConstructor (array){
+  for (let i = 0; i < array.length; i++){
+    new Image(array[i].name, array[i].src, array[i].views, array[i].clicks);
   }
 }
 
-createImgObjects();
+if(userArray.length > 0){
+  reConstructor(userArray);
+  console.log(Image.imgObjArray);
+}
+
+function createImgObjects(){
+  for (let i = 0; i < imgPathways.length; i++){
+    new Image(imgPathways[i].slice(0, imgPathways[i].length - 4), "./img/" + imgPathways[i], 0, 0)
+  }
+}
+
+if (Image.imgObjArray.length === 0){
+  createImgObjects();
+}
 
 function createImageElements (number) {
   let imageSpace = document.getElementById('imageSpace');
@@ -142,8 +157,6 @@ function successArray(array) {
   return output;
 }
 
-
-
 function renderResults(){
   let resultSpace = document.getElementById('results');
   let list = document.createElement('ul');
@@ -216,9 +229,159 @@ function renderResults(){
           }
       }
   });
-
+  localStorage.setItem("myObject", JSON.stringify(Image.imgObjArray));
 }
 
 imageSpace.addEventListener('click', multiChoiceClick);
 
-console.log(Image.imgObjArray);
+
+// // let problem = [
+// //   [1, 0, 0, 0, 0, 0],
+// //   [0, 1, 0, 0, 1, 1],
+// //   [0, 0, 1, 0, 1, 0],
+// //   [1, 1, 0, 0, 1, 0],
+// //   [1, 0, 1, 1, 0, 0],
+// //   [1, 0, 0, 0, 0, 1]
+// // ];
+
+// // let solution = [
+// //   [0, 0, 0, 0, 0, 0],
+// //   [0, 0, 0, 0, 0, 0],
+// //   [0, 0, 0, 0, 0, 0],
+// //   [0, 0, 0, 0, 0, 0],
+// //   [0, 0, 0, 0, 0, 0],
+// //   [0, 0, 0, 0, 0, 0]
+// // ];
+
+// number = 30;
+
+// function createProblem(number){
+//   let problem = [];
+//   for (let i = 0; i < number; i++){
+//     let row = [];
+//     for (let j = 0; j < number; j++){
+//       row.push(Math.round(Math.random()));
+//     }
+//     problem.push(row);
+//   }
+//   return problem;
+// }
+
+// let problem = createProblem(number);
+
+// function createSolution(number){
+//   let array = [];
+//   for (let i = 0; i < number; i++){
+//     let row = [];
+//     for (let j = 0; j < number; j++){
+//       row.push(0);
+//     }
+//     array.push(row);
+//   }
+//   return array;
+// }
+
+// let solution = createSolution(number);
+
+
+// function Problem (array, i, j) {
+//   this.value = array[i][j];
+//   this.simpIsland = false;
+//   this.link = false;
+//   this.anchor = false;
+//   this.radar = [];
+
+//   if(i === 0 || j === 0 ||  i === (array.length - 1) || j === (array.length - 1)){
+//     this.edge = true;
+//   } 
+//   else{
+//     this.edge = false;
+//   }
+// }
+
+// function createObjArray (array){
+//   let solution = [];
+//   for (let i = 0; i < array.length; i++){
+//     let row = [];
+//     for (let j = 0; j < array[0].length; j++){
+//       row.push(new Problem(array, i, j));
+//     }
+//     solution.push(row);
+//   }
+//   return solution;
+// }
+
+// let objArray = createObjArray(problem);
+
+// function createRadar (array){
+//   for (let i = 1; i < (array.length - 1); i++){
+//     for (let j = 1; j < (array[0].length - 1); j++){
+//       let radar = [array[i+1][j], array[i][j+1], array[i-1][j], array[i][j-1]];
+//       array[i][j].radar = radar;
+//     }
+//   }
+// }
+
+// createRadar(objArray);
+
+// function map(array) {
+//   for (let i = 1; i < (array.length - 1); i++){
+//     for (let j = 1; j < (array[0].length - 1); j++){
+//       if (array[i][j].value === 1){
+//         if (array[i][j].radar[0].value === 0 && array[i][j].radar[1].value === 0 && array[i][j].radar[2].value === 0 && array[i][j].radar[3].value === 0 ){
+//           array[i][j].simpIsland = true;
+//         }
+//         else if(((array[i][j].radar[0].edge === true) &&  (array[i][j].radar[0].value === 1)) || ((array[i][j].radar[1].edge === true) &&  (array[i][j].radar[1].value === 1)) || ((array[i][j].radar[2].edge === true) &&  (array[i][j].radar[2].value === 1)) || ((array[i][j].radar[3].edge === true) &&  (array[i][j].radar[3].value === 1)) ){
+//           array[i][j].anchor = true;
+//         }
+//         else{
+//           array[i][j].link = true;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// map(objArray);
+
+// function anchorUpdate(array){
+//   let count = 0;
+//   for (let i = 1; i < (array.length - 1); i++){
+//     for (let j = 1; j < (array[0].length - 1); j++){
+//       if (array[i][j].link === true){
+//         for (let k = 0; k < array[i][j].radar.length; k++){
+//           if (array[i][j].radar[k].anchor === true){
+//             array[i][j].link = false;
+//             array[i][j].anchor = true;
+//             count++;
+//           }
+//         }
+//       }
+//     }
+//   }
+//   return count;
+// }
+
+// function print (array, array2){
+//   for (let i = 1; i < (array.length - 1); i++){
+//     for (let j = 1; j < (array[0].length - 1); j++){
+//       if (array[i][j].link === true || array[i][j].simpIsland === true){
+//         array2[i][j] = array[i][j].value;
+//       }
+//     }
+//   }
+//   return array2;
+// }
+
+// function iterateAnchorUpdate(array){
+//   console.log(problem)
+//   console.log(print(array, solution));
+//   while(anchorUpdate(array) > 0){
+//     solution = createSolution(number);
+//     console.log(print(array, solution));
+//   }
+// } 
+
+// iterateAnchorUpdate(objArray);
+
+
