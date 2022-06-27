@@ -236,6 +236,19 @@ function renderResults(){
 
 imageSpace.addEventListener('click', multiChoiceClick);
 
+let dog = {
+  breed: "Beagle",
+  weight: 30,
+  group: "Hound"
+};
+let key = "weight";
+
+console.log(dog[key] === 30)
+console.log(dog['weight'] == '30')
+console.log('weight' in dog)
+console.log(dog.weight)
+console.log(dog.key === 30)
+console.log(dog.hasOwnProperty('weight'))
 
 // let problem = [
 //   [1, 0, 0, 0, 0, 0],
