@@ -35,6 +35,7 @@ let userArray = JSON.parse(localStorage.getItem("myObject"));
 
 Image.imgObjArray = [];
 
+//redefines the origin of persisted data
 function reConstructor (array){
   for (let i = 0; i < array.length; i++){
     new Image(array[i].name, array[i].src, array[i].views, array[i].clicks);
@@ -43,8 +44,6 @@ function reConstructor (array){
 
 if(userArray){
   reConstructor(userArray);
-  console.log(Image.imgObjArray);
-  console.log('hi');
 }
 
 function createImgObjects(){
@@ -53,11 +52,13 @@ function createImgObjects(){
   }
 }
 
+
+//If no persisted data is present, then the empty array is filled with objects
 if (Image.imgObjArray.length === 0){
   createImgObjects();
-  console.log('hi2');
 }
 
+//Sets up the page with appropriate element that accompany the images
 function createImageElements (number) {
   let imageSpace = document.getElementById('imageSpace');
   let instructionSpace = document.getElementById('instructionSpace')
@@ -105,6 +106,7 @@ function renderImages (number) {
 
 renderImages(number);
 
+//event function for clicking an image, takes care of incorrectly placed click
 function multiChoiceClick(event) {
   let state = false;
   if(event.target === imageSpace){
@@ -143,6 +145,7 @@ function multiChoiceClick(event) {
   }
 }
 
+//creates an array of values for a given property for an array of objects
 function dataArray(array, property) {
   let output = [];
   for (let i = 0; i < array.length; i++) {
@@ -151,6 +154,7 @@ function dataArray(array, property) {
   return output;
 }
 
+//calculation for second chart
 function successArray(array) {
   let output = [];
   for (let i = 0; i < array.length; i++) {
@@ -158,6 +162,8 @@ function successArray(array) {
   }
   return output;
 }
+
+// Definition of how the results will map the data onto the html page.
 
 function renderResults(){
   let resultSpace = document.getElementById('results');
@@ -234,22 +240,10 @@ function renderResults(){
   localStorage.setItem("myObject", JSON.stringify(Image.imgObjArray));
 }
 
+//event listener for clicks
 imageSpace.addEventListener('click', multiChoiceClick);
 
-let dog = {
-  breed: "Beagle",
-  weight: 30,
-  group: "Hound"
-};
-let key = "weight";
-
-console.log(dog[key] === 30)
-console.log(dog['weight'] == '30')
-console.log('weight' in dog)
-console.log(dog.weight)
-console.log(dog.key === 30)
-console.log(dog.hasOwnProperty('weight'))
-
+//unnecessary code for my own reference
 // let problem = [
 //   [1, 0, 0, 0, 0, 0],
 //   [0, 1, 0, 0, 1, 1],
