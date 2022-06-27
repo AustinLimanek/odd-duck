@@ -41,7 +41,7 @@ function reConstructor (array){
   }
 }
 
-if(userArray.length > 0){
+if(userArray){
   reConstructor(userArray);
   console.log(Image.imgObjArray);
   console.log('hi');
